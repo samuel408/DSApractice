@@ -4,33 +4,16 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        answer = []
-        dictionary = defaultdict(int)
-        for i in nums:
-            if i in dictionary:
-                dictionary[i] += 1
-            else:
-                dictionary[i] = 1
-        current = 0
-        print ( dictionary)
+        answer = [1]*len(nums)      
+        for i in range(1,len(nums)):
+            answer[i] = answer[i-1] * nums[i-1]
 
-        holder = set(nums)
-        for i in nums:
-            holder.remove(i)
-            dictionary[i] -= 1
+        
+        post = 1
+        for i in range(len(nums) - 1, -1, -1):
+            answer[i] = post * answer[i]
+            post *= (nums[i])  
 
-            if i not in holder and dictionary[i]!= 0 :#if that was the only number in the set return that number
-                # answer.append(i)
-                holder.add(i)
-                # dictionary[i] += 1
-            if len(holder) == 1 and dictionary[i] > 1:
-                    answer.append((i*dictionary[i]))
-                    continue
-
-                
-            answer.append(reduce(mul, holder, 1))
-            holder.add(i)
-            dictionary[i] += 1
 
         return answer
 
